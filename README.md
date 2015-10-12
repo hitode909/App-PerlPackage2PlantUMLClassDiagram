@@ -1,6 +1,6 @@
 # NAME
 
-App::PerlPackage2PlantUMLClassDiagram - It's new $module
+App::PerlPackage2PlantUMLClassDiagram - Generate Plant UML's class diagraom from Perl packages.
 
 # SYNOPSIS
 

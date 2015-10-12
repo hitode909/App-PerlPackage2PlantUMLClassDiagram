@@ -1,5 +1,5 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "Generate Plant UML's class diagraom from Perl packages.",
    "author" : [
       "This library is free software; you can redistribute it and/or modify"
    ],
@@ -42,6 +42,7 @@
       },
       "runtime" : {
          "requires" : {
+            "PPI" : "0",
             "perl" : "5.008001"
          }
       },

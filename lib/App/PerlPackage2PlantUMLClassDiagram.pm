@@ -14,7 +14,7 @@ __END__
 
 =head1 NAME
 
-App::PerlPackage2PlantUMLClassDiagram - It's new $module
+App::PerlPackage2PlantUMLClassDiagram - Generate Plant UML's class diagraom from Perl packages.
 
 =head1 SYNOPSIS
 
