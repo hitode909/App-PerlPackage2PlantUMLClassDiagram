@@ -3,4 +3,4 @@ name = "App-PerlPackage2PlantUMLClassDiagram"
 authority="cpan:HITODE"
 
 module_maker="ModuleBuildTiny"
-
+readme_from="script/package2plantumlclassdiagram"

@@ -16,13 +16,9 @@ __END__
 
 App::PerlPackage2PlantUMLClassDiagram - Generate Plant UML's class diagraom from Perl packages.
 
-=head1 SYNOPSIS
-
-    use App::PerlPackage2PlantUMLClassDiagram;
-
 =head1 DESCRIPTION
 
-App::PerlPackage2PlantUMLClassDiagram is ...
+App::PerlPackage2PlantUMLClassDiagram is backend of package2plantumlclassdiagram.
 
 =head1 LICENSE
 
