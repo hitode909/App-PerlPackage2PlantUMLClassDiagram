@@ -66,5 +66,11 @@ subtest 'not existing file' => sub {
     like $@, qr{^file not exist: t/data/NotExist.pm};
 };
 
+subtest 'not a package' => sub {
+    my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/hello.pl');
+    is $package->to_class_syntax, '';
+    is $package->to_inherit_syntax, '';
+};
+
 done_testing;
 

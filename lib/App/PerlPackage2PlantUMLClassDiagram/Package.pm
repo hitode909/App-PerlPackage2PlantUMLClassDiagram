@@ -33,7 +33,9 @@ sub document {
 sub package_name {
     my ($self) = @_;
 
-    $self->document->find_first('PPI::Statement::Package')->namespace;
+    my $package = $self->document->find_first('PPI::Statement::Package');
+    return unless $package;
+    $package->namespace;
 }
 
 sub parent_packages {
@@ -122,6 +124,10 @@ sub private_methods {
 
 sub to_class_syntax {
     my ($self) = @_;
+
+    my $package_name = $self->package_name;
+
+    return '' unless $package_name;
 
     render_mt('class_syntax', {
         package_name => $self->package_name,
