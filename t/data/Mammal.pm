@@ -1,5 +1,4 @@
 package Mammal;
-use parent qw(Mammal);
 
 sub new {
     my ($class) = @_;

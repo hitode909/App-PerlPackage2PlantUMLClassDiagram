@@ -2,7 +2,7 @@ use strict;
 use Test::More 0.98;
 use App::PerlPackage2PlantUMLClassDiagram::Package;
 
-subtest 'simple' => sub {
+subtest 'basic' => sub {
     my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/User.pm');
     isa_ok $package, 'App::PerlPackage2PlantUMLClassDiagram::Package';
     is $package->source, 't/data/User.pm';
@@ -16,14 +16,23 @@ subtest 'simple' => sub {
 
     is_deeply $package->parent_packages, ['Mammal', 'HasPassword'];
 
-#     is $package->to_plantuml, <<'UML';
-# class User {
-#   username
-#   password
-#   +sign_in()
-#   -sign_out()
-# }
-# UML
+    is $package->to_class_syntax, <<'UML';
+class User {
+  {static} new
+  + name
+  - _password
+}
+UML
+
+    is $package->to_inherit_syntax, <<'UML';
+Mammal <|-- User
+HasPassword <|-- User
+UML
+};
+
+subtest 'without inheritance' => sub {
+    my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/Mammal.pm');
+    is $package->to_inherit_syntax, '';
 };
 
 done_testing;

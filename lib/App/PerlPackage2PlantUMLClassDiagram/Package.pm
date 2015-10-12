@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use PPI::Document;
+use Text::MicroTemplate::DataSection 'render_mt';
 
 sub new {
     my ($class, $source) = @_;
@@ -86,10 +87,43 @@ sub private_methods {
 sub to_class_syntax {
     my ($self) = @_;
 
-    <<"UML"
-class @{[ $self->package_name ]}
-UML
+    render_mt('class_syntax', {
+        package_name => $self->package_name,
+        static_methods => $self->static_methods,
+        public_methods => $self->public_methods,
+        private_methods => $self->private_methods,
+    });
+}
 
+sub to_inherit_syntax {
+    my ($self) = @_;
+
+    my $parent_packages = $self->parent_packages;
+
+    return '' unless @$parent_packages;
+
+    render_mt('inherit_syntax', {
+        package_name => $self->package_name,
+        parent_packages => $parent_packages,
+    });
 }
 
 1;
+__DATA__
+
+@@ class_syntax
+class <?= $_[0]->{package_name} ?> {
+? for my $static_method (@{$_[0]->{static_methods}}) {
+  {static} <?= $static_method ?>
+? }
+? for my $public_method (@{$_[0]->{public_methods}}) {
+  + <?= $public_method ?>
+? }
+? for my $private_method (@{$_[0]->{private_methods}}) {
+  - <?= $private_method ?>
+? }
+}
+@@ inherit_syntax
+? for my $parent_package (@{$_[0]->{parent_packages}}) {
+<?= $parent_package ?> <|-- <?= $_[0]->{package_name} ?>
+? }
