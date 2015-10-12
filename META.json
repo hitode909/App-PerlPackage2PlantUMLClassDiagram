@@ -54,6 +54,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/hitode909/App-PerlPackage2PlantUMLClassDiagram/issues"
+      },
+      "homepage" : "https://github.com/hitode909/App-PerlPackage2PlantUMLClassDiagram",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/hitode909/App-PerlPackage2PlantUMLClassDiagram.git",
+         "web" : "https://github.com/hitode909/App-PerlPackage2PlantUMLClassDiagram"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:HITODE",
    "x_contributors" : [

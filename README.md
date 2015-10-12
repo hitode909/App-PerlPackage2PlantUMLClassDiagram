@@ -23,7 +23,13 @@ Then, render a.plantuml with PlantUML.
 
 Like this.
 
-    % package2plantumlclassdiagram ~/YourApp/lib/**.pm > a.plantuml
+    % package2plantumlclassdiagram ~/YourApp/lib/**/**.pm > a.plantuml
+
+# PLOT ONLY INHERITANCE RELATIONSHIPS
+
+Use grep -P.
+
+    % package2plantumlclassdiagram PATH_TO_MODULES | ggrep -P '^(@startuml|@enduml)|(<|--)' > a.plantuml
 
 # SEE ALSO
 
