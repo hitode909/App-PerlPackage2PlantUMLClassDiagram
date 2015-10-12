@@ -39,7 +39,7 @@ sub package_name {
 sub parent_packages {
     my ($self) = @_;
 
-    my $includes = $self->document->find('PPI::Statement::Include');
+    my $includes = $self->document->find('PPI::Statement::Include') || [];
     return [] unless $includes;
 
     my $parent_packages = [];
@@ -80,7 +80,7 @@ sub _arguments ($) {
     my $list = $variable->find_first('PPI::Structure::List');
     return () unless $list;
 
-    my $symbols = $list->find('PPI::Token::Symbol');
+    my $symbols = $list->find('PPI::Token::Symbol') || [];
     return () unless @$symbols;
     my $receiver = shift @$symbols if $symbols->[0]->content eq '$self' || $symbols->[0]->content eq '$class';
     ($receiver, @$symbols);
