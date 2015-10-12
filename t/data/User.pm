@@ -2,7 +2,7 @@ package User;
 use parent qw(Mammal HasPassword);
 
 sub new {
-    my ($class) = @_;
+    my ($class, %args) = @_;
 }
 
 sub name {

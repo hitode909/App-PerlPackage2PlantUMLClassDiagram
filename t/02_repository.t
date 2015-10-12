@@ -20,8 +20,8 @@ subtest 'render a package' => sub {
     is $repository->to_plantuml, <<'UML';
 @startuml
 class Mammal {
-  {static} new
-  + walk
+  {static} new(%args)
+  + walk()
 }
 @enduml
 UML
@@ -35,16 +35,16 @@ subtest 'render packages' => sub {
     is $repository->to_plantuml, <<'UML';
 @startuml
 class Mammal {
-  {static} new
-  + walk
+  {static} new(%args)
+  + walk()
 }
 class HasPassword {
-  + authenticate
+  + authenticate($login_info, $callback)
 }
 class User {
-  {static} new
-  + name
-  - _password
+  {static} new(%args)
+  + name()
+  - _password()
 }
 Mammal <|-- User
 HasPassword <|-- User

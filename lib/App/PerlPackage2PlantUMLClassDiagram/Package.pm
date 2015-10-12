@@ -67,21 +67,30 @@ sub _methods {
     $self->document->find('PPI::Statement::Sub');
 }
 
+sub _method_signature ($) {
+    my ($sub) = @_;
+
+    my $symbols = $sub->find_first('PPI::Statement::Variable')->find_first('PPI::Structure::List')->find('PPI::Token::Symbol');
+    shift @$symbols if $symbols->[0]->content =~ /^\$(self|class)$/;;
+    my $arguments = join ', ', @$symbols;
+    "@{[ $sub->name ]}(@{[ $arguments ]})";
+}
+
 sub static_methods {
     my ($self) = @_;
-    [ map { $_->name } grep { $_ =~ m{\$class} } @{$self->_methods} ];
+    [ map { _method_signature $_ } grep { $_ =~ m{\$class} } @{$self->_methods} ];
 }
 
 sub public_methods {
     my ($self) = @_;
 
-    [ map { $_->name } grep { index($_->name, '_') == -1 } grep { index($_->content, '$class') == -1 } @{$self->_methods} ];
+    [ map { _method_signature $_ } grep { index($_->name, '_') == -1 } grep { index($_->content, '$class') == -1 } @{$self->_methods} ];
 }
 
 sub private_methods {
     my ($self) = @_;
 
-    [ map { $_->name } grep { index($_->name, '_') == 0 } grep { index($_->content, '$class') == -1 } @{$self->_methods} ];
+    [ map { _method_signature $_ } grep { index($_->name, '_') == 0 } grep { index($_->content, '$class') == -1 } @{$self->_methods} ];
 }
 
 sub to_class_syntax {

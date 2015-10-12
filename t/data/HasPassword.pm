@@ -1,7 +1,7 @@
 package HasPassword;
 
 sub authenticate {
-    my ($self) = @_;
+    my ($self, $login_info, $callback) = @_;
 }
 
 1;

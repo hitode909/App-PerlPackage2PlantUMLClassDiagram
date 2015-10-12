@@ -1,7 +1,7 @@
 package Mammal;
 
 sub new {
-    my ($class) = @_;
+    my ($class, %args) = @_;
 }
 
 sub walk {
