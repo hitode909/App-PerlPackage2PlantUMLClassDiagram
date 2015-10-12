@@ -26,8 +26,20 @@ UML
 };
 
 subtest 'method_signiture' => sub {
-    my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/HasPassword.pm');
-    is_deeply $package->public_methods, ['authenticate($login_info, $callback)'];
+    subtest 'empty' => sub {
+        my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/Constant.pm');
+        is_deeply $package->public_methods, ['pi()'];
+    };
+
+    subtest 'with arguments' => sub {
+        my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/HasPassword.pm');
+        is_deeply $package->public_methods, ['authenticate($login_info, $callback)'];
+    };
+
+    subtest 'function' => sub {
+        my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/Math.pm');
+        is_deeply $package->public_methods, ['add($a, $b)'];
+    };
 };
 
 subtest 'without inheritance' => sub {

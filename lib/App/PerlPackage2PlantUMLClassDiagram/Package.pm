@@ -67,13 +67,27 @@ sub _methods {
     $self->document->find('PPI::Statement::Sub');
 }
 
+sub _arguments {
+    my ($sub) = @_;
+
+    my $variable = $sub->find_first('PPI::Statement::Variable');
+    return () unless $variable;
+
+    my $list = $variable->find_first('PPI::Structure::List');
+    return () unless $list;
+
+    my $symbols = $list->find('PPI::Token::Symbol');
+    return () unless @$symbols;
+    shift @$symbols if $symbols->[0]->content =~ /^\$(self|class)$/;
+    @$symbols;
+}
+
 sub _method_signature ($) {
     my ($sub) = @_;
 
-    my $symbols = $sub->find_first('PPI::Statement::Variable')->find_first('PPI::Structure::List')->find('PPI::Token::Symbol');
-    shift @$symbols if $symbols->[0]->content =~ /^\$(self|class)$/;;
-    my $arguments = join ', ', @$symbols;
-    "@{[ $sub->name ]}(@{[ $arguments ]})";
+    my @arguments = _arguments($sub);
+
+    "@{[ $sub->name ]}(@{[ join ', ', @arguments ]})";
 }
 
 sub static_methods {
