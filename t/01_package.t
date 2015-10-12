@@ -47,5 +47,24 @@ subtest 'without inheritance' => sub {
     is $package->to_inherit_syntax, '';
 };
 
+subtest 'without method' => sub {
+    my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/EmptyClass.pm');
+    is_deeply $package->_methods, [];
+};
+
+subtest 'method which start with _' => sub {
+    my $package = App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/MethodWithUnderscore.pm');
+    is_deeply $package->public_methods, ['user_info()'];
+};
+
+subtest 'not existing file' => sub {
+    local $@;
+
+    eval {
+        App::PerlPackage2PlantUMLClassDiagram::Package->new('t/data/NotExist.pm');
+    };
+    like $@, qr{^file not exist: t/data/NotExist.pm};
+};
+
 done_testing;
 

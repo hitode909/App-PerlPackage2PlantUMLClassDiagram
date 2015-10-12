@@ -9,6 +9,10 @@ use Text::MicroTemplate::DataSection 'render_mt';
 sub new {
     my ($class, $source) = @_;
 
+    unless (-f $source) {
+        die "file not exist: $source";
+    }
+
     bless {
         source => $source,
     }, $class;
@@ -64,10 +68,10 @@ sub parent_packages {
 sub _methods {
     my ($self) = @_;
 
-    $self->document->find('PPI::Statement::Sub');
+    $self->document->find('PPI::Statement::Sub') || [];
 }
 
-sub _arguments {
+sub _arguments ($) {
     my ($sub) = @_;
 
     my $variable = $sub->find_first('PPI::Statement::Variable');
@@ -78,33 +82,42 @@ sub _arguments {
 
     my $symbols = $list->find('PPI::Token::Symbol');
     return () unless @$symbols;
-    shift @$symbols if $symbols->[0]->content =~ /^\$(self|class)$/;
-    @$symbols;
+    my $receiver = shift @$symbols if $symbols->[0]->content eq '$self' || $symbols->[0]->content eq '$class';
+    ($receiver, @$symbols);
 }
 
 sub _method_signature ($) {
     my ($sub) = @_;
 
-    my @arguments = _arguments($sub);
+    my (undef, @arguments) = _arguments($sub);
 
     "@{[ $sub->name ]}(@{[ join ', ', @arguments ]})";
 }
 
 sub static_methods {
     my ($self) = @_;
-    [ map { _method_signature $_ } grep { $_ =~ m{\$class} } @{$self->_methods} ];
+    [ map { _method_signature $_ } grep {
+        my ($receiver) = _arguments $_;
+        $receiver && $receiver eq '$class';
+    } @{$self->_methods} ];
 }
 
 sub public_methods {
     my ($self) = @_;
 
-    [ map { _method_signature $_ } grep { index($_->name, '_') == -1 } grep { index($_->content, '$class') == -1 } @{$self->_methods} ];
+    [ map { _method_signature $_ } grep { index($_->name, '_') != 0 } grep {
+        my ($receiver) = _arguments $_;
+        !$receiver || $receiver eq '$self';
+    } @{$self->_methods} ];
 }
 
 sub private_methods {
     my ($self) = @_;
 
-    [ map { _method_signature $_ } grep { index($_->name, '_') == 0 } grep { index($_->content, '$class') == -1 } @{$self->_methods} ];
+    [ map { _method_signature $_ } grep { index($_->name, '_') == 0 } grep {
+        my ($receiver) = _arguments $_;
+        !$receiver || $receiver eq '$self';
+    } @{$self->_methods} ];
 }
 
 sub to_class_syntax {
