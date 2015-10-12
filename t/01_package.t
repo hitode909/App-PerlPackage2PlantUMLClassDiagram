@@ -23,11 +23,6 @@ class User {
   - _password
 }
 UML
-
-    is $package->to_inherit_syntax, <<'UML';
-Mammal <|-- User
-HasPassword <|-- User
-UML
 };
 
 subtest 'without inheritance' => sub {
