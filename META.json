@@ -44,7 +44,7 @@
          "requires" : {
             "PPI" : "0",
             "Text::MicroTemplate::DataSection" : "0",
-            "perl" : "5.008001"
+            "perl" : "5.014"
          }
       },
       "test" : {

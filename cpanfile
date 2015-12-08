@@ -1,4 +1,4 @@
-requires 'perl', '5.008001';
+requires 'perl', '5.014';
 
 requires 'PPI';
 requires 'Text::MicroTemplate::DataSection';
