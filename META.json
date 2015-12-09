@@ -4,7 +4,7 @@
       "This library is free software; you can redistribute it and/or modify"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.133380",
+   "generated_by" : "Minilla/v3.0.0, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "perl_5"
    ],
@@ -69,5 +69,6 @@
    "x_authority" : "cpan:HITODE",
    "x_contributors" : [
       "hitode909 <hitode909@gmail.com>"
-   ]
+   ],
+   "x_serialization_backend" : "JSON::PP version 2.27300"
 }
