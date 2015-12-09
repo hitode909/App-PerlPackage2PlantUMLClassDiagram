@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/hitode909/App-PerlPackage2PlantUMLClassDiagram.svg?branch=master)](https://travis-ci.org/hitode909/App-PerlPackage2PlantUMLClassDiagram)
 # NAME
 
 package2plantumlclassdiagram - Generates Plant UML's Class Diagram from Perl Modules
