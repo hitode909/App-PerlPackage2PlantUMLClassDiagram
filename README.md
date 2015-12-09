@@ -44,4 +44,4 @@ it under the same terms as Perl itself.
 
 # AUTHOR
 
-hitode909 &lt;hitode909@gmail.com>
+hitode909 <hitode909@gmail.com>
