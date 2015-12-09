@@ -22,7 +22,7 @@ sub packages {
 sub load_package {
     my ($self, $path) = @_;
 
-    push $self->{packages}, App::PerlPackage2PlantUMLClassDiagram::Package->new($path);
+    push @{$self->{packages}}, App::PerlPackage2PlantUMLClassDiagram::Package->new($path);
 }
 
 sub to_plantuml {
