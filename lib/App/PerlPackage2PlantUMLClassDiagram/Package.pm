@@ -35,7 +35,7 @@ sub package_name {
 
     my $package = $self->document->find_first('PPI::Statement::Package');
     return unless $package;
-    $package->namespace;
+    replace_two_colon($package->namespace);
 }
 
 sub parent_packages {
@@ -56,11 +56,11 @@ sub parent_packages {
 
         if ($parent->isa('PPI::Token::Quote')) {
             # The 'literal' method is not implemented by ::Quote::Double or ::Quote::Interpolate.
-            push @$parent_packages, $parent->can('literal') ? $parent->literal : $parent->string;
+            push @$parent_packages, replace_two_colon($parent->can('literal') ? $parent->literal : $parent->string);
         } elsif ($parent->isa('PPI::Token::QuoteLike::Words')) {
             # use parent qw(A B C) pattern
             # literal is array when QuoteLike::Words
-            push @$parent_packages, $parent->literal;
+            push @$parent_packages, replace_two_colon($parent->literal);
         }
     }
 
@@ -150,19 +150,24 @@ sub to_inherit_syntax {
     });
 }
 
+sub replace_two_colon {
+    local $_ = shift;
+    s/::/_/gr;
+}
+
 1;
 __DATA__
 
 @@ class_syntax
-class <?= $_[0]->{package_name} ?> {
+class <?= $_[0]->{package_name} ?>{
 ? for my $static_method (@{$_[0]->{static_methods}}) {
-  {static} <?= $static_method ?>
+  $<?= $static_method ?>
 ? }
 ? for my $public_method (@{$_[0]->{public_methods}}) {
-  + <?= $public_method ?>
+  +<?= $public_method ?>
 ? }
 ? for my $private_method (@{$_[0]->{private_methods}}) {
-  - <?= $private_method ?>
+  -<?= $private_method ?>
 ? }
 }
 @@ inherit_syntax

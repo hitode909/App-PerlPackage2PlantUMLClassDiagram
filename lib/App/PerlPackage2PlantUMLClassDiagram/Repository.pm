@@ -36,7 +36,7 @@ sub to_plantuml {
         $_->to_inherit_syntax
     } @{$self->packages};
 
-    join "\n", '@startuml', @class_syntaxes, @inherit_syntaxes, '@enduml', '';
+    join "\n", 'classDiagram', @class_syntaxes, @inherit_syntaxes, '';
 }
 
 1;
